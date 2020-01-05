@@ -1,0 +1,1 @@
+sudo docker exec -it flaskhello_flask_1 bash
