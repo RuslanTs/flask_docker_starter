@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, jsonify, abort, redirect, url_for
 import numpy as np
 import pickle
 
@@ -46,3 +46,25 @@ def show_image(iris):
     versicolor = '<img src="/static/versicolor.jpg" alt="versicolor">'
     images = {0: setosa, 1: versicolor, 2: virginica}
     return images[int(iris)]
+
+@app.route('/iris_post', methods=['POST'])
+def add_message():
+
+    try:
+        content = request.get_json()
+        # print(content) # Do your processing
+
+        params = content['flower'].split(',')
+        params = [float(num) for num in params]
+        params = np.array(params).reshape(1,-1)
+        predict = knn.predict(params)
+
+        predict = {'class': int(predict[0])}
+    except:
+        return redirect(url_for('bad_request'))
+
+    return jsonify(predict)
+
+@app.route('/badrequest400')
+def bad_request():
+    abort(400)
