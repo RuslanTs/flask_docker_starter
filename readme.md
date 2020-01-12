@@ -1,3 +1,5 @@
+# Flask with docker for a ML model (with online requests)
+
 sudo docker exec -it flaskhello_flask_1 bash
 
 # train and save a model
